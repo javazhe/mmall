@@ -36,13 +36,14 @@ public class FTPUtil {
     public static boolean uploadFile(List<File> listFile) throws IOException {
         FTPUtil ftpUtil = new FTPUtil(ftpIp,21,ftpUser,ftpPass);
         logger.info("开始链接FTP服务器");
-        boolean result = ftpUtil.uploadFile("img", listFile);
+        boolean result = ftpUtil.uploadFile("image", listFile);
         logger.info("上传文件结束,状态:{}",result);
         return result;
 
     }
 
     private boolean uploadFile(String remotePath,List<File> listFile) throws IOException {
+       //remotePath是指远程服务器的文件路径的下一级目录,这里配置的是D:\ftpfile
         boolean uploaded = true;
         FileInputStream fis = null;
         if (connectService(this.ip,this.port,this.username,this.pass)){

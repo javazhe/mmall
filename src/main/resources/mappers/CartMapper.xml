@@ -116,4 +116,55 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByProductIdUserId" parameterType="map" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/> FROM mmall_cart
+    where user_id = #{userId}
+    and product_id = #{productId}
+  </select>
+
+  <select id="selectCartByUserId" parameterType="integer" resultType="com.mmall.pojo.Cart">
+    SELECT <include refid="Base_Column_List"/> FROM mmall_cart
+    where user_id = #{userId}
+  </select>
+  
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="integer" resultType="integer">
+    select count(1) from mmall_cart where checked = 0 AND user_id = #{userId}
+  </select>
+
+  <select id="deleteByUserIdProductIds" parameterType="map" resultType="integer">
+    delete from mmall_cart
+    WHERE  user_id = #{userId}
+    <if test="productIdList != null">
+      and product_id in
+      <foreach collection="productList" item="pid" open="(" close=")" separator=",">
+          #{pid}
+      </foreach>
+    </if>
+  </select>
+
+  <update id="checkedOrUncheckedProduct" parameterType="map">
+    UPDATE  mmall_cart
+    set checked = #{checked},
+    update_time = now()
+    where user_id = #{userId}
+    <if test="productId != null">
+      and product_id = #{productId}
+    </if>
+  </update>
+
+
+  <select id="selectCartProductCount" parameterType="int" resultType="int">
+    select IFNULL(sum(quantity),0) as count from mmall_cart where user_id = #{userId}
+  </select>
+
+
+
+  <select id="selectCheckedCartByUserId" parameterType="int" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mmall_cart
+    where user_id = #{userId}
+    and checked = 1
+  </select>
 </mapper>
