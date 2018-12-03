@@ -4,6 +4,7 @@ package com.mmall.common;
  * Created by jia on 2018/6/1.
  */
 public enum ResponseCode {
+
     SUCCESS(0,"success"),
     ERROR(1,"ERROR"),
     NEED_LOGIN(10,"NEED_LOGIN"),
@@ -24,4 +25,5 @@ public enum ResponseCode {
     public String getDesc() {
         return desc;
     }
+
 }
